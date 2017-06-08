@@ -98,7 +98,7 @@ public class TupleDesc implements Serializable {
      *             if i is not a valid field reference.
      */
     public String getFieldName(int i) throws NoSuchElementException {
-        if (i > numFields()) {
+        if (i >= numFields()) {
             throw new NoSuchElementException();
         }
         return TDList.get(i).toString();
@@ -163,7 +163,21 @@ public class TupleDesc implements Serializable {
      */
     public static TupleDesc merge(TupleDesc td1, TupleDesc td2) {
         // some code goes here
-        return null;
+        int len = td1.TDList.size() + td2.TDList.size();
+        Type[] t = new Type[len];
+        String[] s = new String[len];
+        int j=0;
+        for (TDItem i: td1.TDList) {
+            t[j] = i.fieldType;
+            s[j] = i.fieldName;
+            j += 1;
+        }
+        for (TDItem i: td2.TDList) {
+            t[j] = i.fieldType;
+            s[j] = i.fieldName;
+            j += 1;
+        }
+        return new TupleDesc(t, s);
     }
 
     /**
