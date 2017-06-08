@@ -7,6 +7,10 @@ import java.util.*;
  * TupleDesc describes the schema of a tuple.
  */
 public class TupleDesc implements Serializable {
+    /**
+     * A list to store field
+     */
+    private List<TDItem> TDList = new ArrayList<TDItem>();
 
     /**
      * A help class to facilitate organizing the information of each field
@@ -41,9 +45,7 @@ public class TupleDesc implements Serializable {
      *        that are included in this TupleDesc
      * */
     public Iterator<TDItem> iterator() {
-        // some code goes here
-
-        return null;
+        return TDList.iterator();
     }
 
     private static final long serialVersionUID = 1L;
@@ -60,7 +62,9 @@ public class TupleDesc implements Serializable {
      *            be null.
      */
     public TupleDesc(Type[] typeAr, String[] fieldAr) {
-        // some code goes here
+        for (int i=0; i<typeAr.length; i++) {
+            TDList.add(new TDItem(typeAr[i], fieldAr[i]));
+        }
     }
 
     /**
@@ -72,15 +76,16 @@ public class TupleDesc implements Serializable {
      *            TupleDesc. It must contain at least one entry.
      */
     public TupleDesc(Type[] typeAr) {
-        // some code goes here
+        for (int i=0; i<typeAr.length; i++) {
+            TDList.add(new TDItem(typeAr[i], ""));
+        }
     }
 
     /**
      * @return the number of fields in this TupleDesc
      */
     public int numFields() {
-        // some code goes here
-        return 0;
+        return TDList.size();
     }
 
     /**
@@ -93,8 +98,10 @@ public class TupleDesc implements Serializable {
      *             if i is not a valid field reference.
      */
     public String getFieldName(int i) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        if (i > numFields()) {
+            throw new NoSuchElementException();
+        }
+        return TDList.get(i).toString();
     }
 
     /**
@@ -108,8 +115,10 @@ public class TupleDesc implements Serializable {
      *             if i is not a valid field reference.
      */
     public Type getFieldType(int i) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        if (i > numFields()) {
+            throw new NoSuchElementException();
+        }
+        return TDList.get(i).fieldType;
     }
 
     /**
@@ -122,8 +131,12 @@ public class TupleDesc implements Serializable {
      *             if no field with a matching name is found.
      */
     public int fieldNameToIndex(String name) throws NoSuchElementException {
-        // some code goes here
-        return 0;
+        for (int i=0; i < TDList.size(); i++) {
+            if (TDList.get(i).fieldName.equals(name)) {
+                return i;
+            }
+        }
+        throw new NoSuchElementException();
     }
 
     /**
@@ -131,8 +144,11 @@ public class TupleDesc implements Serializable {
      *         Note that tuples from a given TupleDesc are of a fixed size.
      */
     public int getSize() {
-        // some code goes here
-        return 0;
+        int ans = 0;
+        for (TDItem i: TDList) {
+            ans += i.fieldType.getLen();
+        }
+        return ans;
     }
 
     /**
@@ -160,8 +176,22 @@ public class TupleDesc implements Serializable {
      * @return true if the object is equal to this TupleDesc.
      */
     public boolean equals(Object o) {
-        // some code goes here
-        return false;
+        if (o == null) return false;
+        TupleDesc newObject;
+        try {
+            newObject = (TupleDesc) o;
+        } catch(Exception e) {
+            return false;
+        }
+        if (TDList.size() != newObject.TDList.size()) {
+            return false;
+        }
+        for (int i=0; i<TDList.size(); i++) {
+            if (TDList.get(i).fieldType != newObject.TDList.get(i).fieldType) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int hashCode() {
@@ -178,7 +208,10 @@ public class TupleDesc implements Serializable {
      * @return String describing this descriptor.
      */
     public String toString() {
-        // some code goes here
-        return "";
+        String s = "";
+        for (TDItem i: TDList) {
+            s = s + i.toString() + ", ";
+        }
+        return s;
     }
 }
