@@ -16,12 +16,24 @@ import java.util.*;
 
 public class Catalog {
 
+    public static class Table {
+        DbFile file;
+        String name;
+        String pkeyField;
+        public Table(DbFile f, String n, String pkey) {
+            file = f;
+            name = n;
+            pkeyField = pkey;
+        }
+    }
+    private HashMap<Integer, Table> tableMap;
+
     /**
      * Constructor.
      * Creates a new, empty catalog.
      */
     public Catalog() {
-        // some code goes here
+        tableMap = new HashMap<Integer, Table>();
     }
 
     /**
@@ -34,7 +46,8 @@ public class Catalog {
      * conflict exists, use the last table to be added as the table for a given name.
      */
     public void addTable(DbFile file, String name, String pkeyField) {
-        // some code goes here
+        Table tmp = new Table(file, name, pkeyField);
+        tableMap.put(file.getId(), tmp);
     }
 
     public void addTable(DbFile file, String name) {
@@ -57,8 +70,14 @@ public class Catalog {
      * @throws NoSuchElementException if the table doesn't exist
      */
     public int getTableId(String name) throws NoSuchElementException {
-        // some code goes here
-        return 0;
+        for (Map.Entry<Integer,Table> entry : tableMap.entrySet()){
+            Table value = entry.getValue();
+            if (value.name == name) {
+                int key = entry.getKey();
+                return key;
+            }
+        }
+        throw new NoSuchElementException();
     }
 
     /**
@@ -68,8 +87,12 @@ public class Catalog {
      * @throws NoSuchElementException if the table doesn't exist
      */
     public TupleDesc getTupleDesc(int tableid) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        Table tmp = tableMap.get(tableid);
+        if (tmp != null) {
+            return tmp.file.getTupleDesc();
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     /**
@@ -79,28 +102,40 @@ public class Catalog {
      *     function passed to addTable
      */
     public DbFile getDbFile(int tableid) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        Table tmp = tableMap.get(tableid);
+        if (tmp != null) {
+            return tmp.file;
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     public String getPrimaryKey(int tableid) {
-        // some code goes here
-        return null;
+        Table tmp = tableMap.get(tableid);
+        if (tmp != null) {
+            return tmp.pkeyField;
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     public Iterator<Integer> tableIdIterator() {
-        // some code goes here
-        return null;
+        return tableMap.keySet().iterator();
     }
 
     public String getTableName(int id) {
-        // some code goes here
-        return null;
+        Table tmp = tableMap.get(id);
+        if (tmp != null) {
+            return tmp.name;
+        } else {
+            throw new NoSuchElementException();
+        }
+
     }
     
     /** Delete all tables from the catalog */
     public void clear() {
-        // some code goes here
+        tableMap.clear();
     }
     
     /**
