@@ -8,6 +8,11 @@ import java.util.*;
  * disk).
  */
 public class SeqScan implements DbIterator {
+    private TransactionId tid;
+    private int tableid;
+    private String tableAlias;
+    private DbFile f;
+    private DbFileIterator fItr;
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +33,9 @@ public class SeqScan implements DbIterator {
      *            tableAlias.null, or null.null).
      */
     public SeqScan(TransactionId tid, int tableid, String tableAlias) {
-        // some code goes here
+        this.tid = tid;
+        this.tableid = tableid;
+        this.tableAlias = tableAlias;
     }
 
     /**
@@ -37,7 +44,7 @@ public class SeqScan implements DbIterator {
      *       be the actual name of the table in the catalog of the database
      * */
     public String getTableName() {
-        return null;
+        return Database.getCatalog().getTableName(tableid);
     }
     
     /**
@@ -45,8 +52,7 @@ public class SeqScan implements DbIterator {
      * */
     public String getAlias()
     {
-        // some code goes here
-        return null;
+        return tableAlias;
     }
 
     /**
@@ -62,7 +68,8 @@ public class SeqScan implements DbIterator {
      *            tableAlias.null, or null.null).
      */
     public void reset(int tableid, String tableAlias) {
-        // some code goes here
+        this.tableid = tableid;
+        this.tableAlias = tableAlias;
     }
 
     public SeqScan(TransactionId tid, int tableid) {
@@ -70,7 +77,9 @@ public class SeqScan implements DbIterator {
     }
 
     public void open() throws DbException, TransactionAbortedException {
-        // some code goes here
+        f = Database.getCatalog().getDbFile(tableid);
+        fItr = f.iterator(tid);
+        fItr.open();
     }
 
     /**
@@ -83,27 +92,25 @@ public class SeqScan implements DbIterator {
      *         prefixed with the tableAlias string from the constructor.
      */
     public TupleDesc getTupleDesc() {
-        // some code goes here
-        return null;
+        f = Database.getCatalog().getDbFile(tableid);
+        return f.getTupleDesc();
     }
 
     public boolean hasNext() throws TransactionAbortedException, DbException {
-        // some code goes here
-        return false;
+        return fItr.hasNext();
     }
 
     public Tuple next() throws NoSuchElementException,
             TransactionAbortedException, DbException {
-        // some code goes here
-        return null;
+        return fItr.next();
     }
 
     public void close() {
-        // some code goes here
+        fItr.close();
     }
 
     public void rewind() throws DbException, NoSuchElementException,
             TransactionAbortedException {
-        // some code goes here
+        fItr.rewind();
     }
 }

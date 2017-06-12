@@ -1,6 +1,7 @@
 package simpledb;
 
 import java.io.*;
+import java.util.HashMap;
 
 /**
  * BufferPool manages the reading and writing of pages into memory from
@@ -12,6 +13,9 @@ import java.io.*;
  * locks to read/write the page.
  */
 public class BufferPool {
+    private int numPages;
+    private HashMap<PageId, Page> pageMap;
+
     /** Bytes per page, including header. */
     public static final int PAGE_SIZE = 4096;
 
@@ -26,7 +30,8 @@ public class BufferPool {
      * @param numPages maximum number of pages in this buffer pool.
      */
     public BufferPool(int numPages) {
-        // some code goes here
+        this.numPages = numPages;
+        this.pageMap = new HashMap<PageId, Page>();
     }
 
     /**
@@ -46,8 +51,18 @@ public class BufferPool {
      */
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
-        // some code goes here
-        return null;
+        if (pageMap.containsKey(pid)) {
+            return pageMap.get(pid);
+        } else {
+            if (pageMap.size() > numPages) {
+                throw new DbException("space not sufficent");
+            } else {
+                Page tmp = Database.getCatalog()
+                        .getDbFile(pid.getTableId()).readPage(pid);
+                pageMap.put(pid, tmp);
+                return tmp;
+            }
+        }
     }
 
     /**
