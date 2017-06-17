@@ -58,7 +58,11 @@ public class HeapFileIterator implements DbFileIterator {
                 return true;
             } else {
                 if (pgNum < f.numPages()-1) {
-                    return true;
+                    if (!getPageIterator(pgNum+1).hasNext()) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
                     return false;
                 }

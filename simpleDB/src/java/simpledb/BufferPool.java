@@ -150,8 +150,6 @@ public class BufferPool {
      */
     public  void deleteTuple(TransactionId tid, Tuple t)
         throws DbException, TransactionAbortedException {
-        // some code goes here
-        // not necessary for proj1
         DbFile dbf = Database.getCatalog().getDbFile(
                 t.getRecordId().getPageId().getTableId());
         HeapFile hf = (HeapFile) dbf;
