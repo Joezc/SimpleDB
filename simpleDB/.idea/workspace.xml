@@ -7,9 +7,6 @@
     <list default="true" id="062c7cef-9d2f-4a32-bb9f-0598737de9f2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/java/simpledb/BufferPool.java" afterPath="$PROJECT_DIR$/src/java/simpledb/BufferPool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/java/simpledb/Delete.java" afterPath="$PROJECT_DIR$/src/java/simpledb/Delete.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/java/simpledb/HeapFileIterator.java" afterPath="$PROJECT_DIR$/src/java/simpledb/HeapFileIterator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/java/simpledb/Insert.java" afterPath="$PROJECT_DIR$/src/java/simpledb/Insert.java" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/src/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,8 +26,18 @@
       <file leaf-file-name="BufferPool.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/java/simpledb/BufferPool.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="78" column="11" lean-forward="false" selection-start-line="78" selection-start-column="11" selection-end-line="78" selection-end-column="11" />
+            <state relative-caret-position="345">
+              <caret line="218" column="32" lean-forward="true" selection-start-line="218" selection-start-column="32" selection-end-line="218" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EvictionTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/simpledb/systemtest/EvictionTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -86,8 +93,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/java/simpledb/Insert.java" />
         <option value="$PROJECT_DIR$/src/java/simpledb/Delete.java" />
-        <option value="$PROJECT_DIR$/src/java/simpledb/BufferPool.java" />
         <option value="$PROJECT_DIR$/src/java/simpledb/HeapFileIterator.java" />
+        <option value="$PROJECT_DIR$/src/java/simpledb/BufferPool.java" />
       </list>
     </option>
   </component>
@@ -175,7 +182,7 @@
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="Buff&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/BufferPool.java&#10;Inser&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/InsertTest.java&#10;Dele&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/DeleteTest.java&#10;Buffer&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/BufferPool.java&#10;Del&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Delete.java&#10;DeleteTest&#9;PSI&#9;JAVA://simpledb.systemtest.DeleteTest&#10;Delete&#9;PSI&#9;JAVA://simpledb.Delete&#10;InserTest&#9;PSI&#9;JAVA://simpledb.systemtest.InsertTest&#10;Insert&#9;PSI&#9;JAVA://simpledb.Insert&#10;HeapPage&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/HeapPage.java&#10;HeapFileW&#9;PSI&#9;JAVA://simpledb.HeapFileWriteTest&#10;HeapPageW&#9;PSI&#9;JAVA://simpledb.HeapPageWriteTest&#10;Heap&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/HeapFileReadTest.java&#10;HeapPa&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/HeapPage.java&#10;BUff&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/BufferPool.java&#10;Tuple&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Tuple.java&#10;Dbfile&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/DbFile.java&#10;HeapFil&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/HeapFile.java&#10;Aggre&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/AggregateTest.java&#10;JoinTest&#9;PSI&#9;JAVA://simpledb.systemtest.JoinTest&#10;Filter&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/FilterTest.java&#10;Join&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Join.java&#10;Predicate&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/PredicateTest.java&#10;JoinPre&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/JoinPredicateTest.java&#10;Predic&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/PredicateTest.java&#10;ScanTest&#9;PSI&#9;JAVA://simpledb.systemtest.ScanTest&#10;FilterTest&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/FilterTest.java&#10;AggregateTest&#9;PSI&#9;JAVA://simpledb.systemtest.AggregateTest&#10;Aggregate&#9;PSI&#9;JAVA://simpledb.systemtest.AggregateTest&#10;AggregateT&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/AggregateTest.java&#10;Integer&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/IntegerAggregator.java&#10;String&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/StringAggregatorTest.java&#10;Fil&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Filter.java&#10;Scan&#9;PSI&#9;JAVA://simpledb.systemtest.ScanTest&#10;Seq&#9;PSI&#9;JAVA://simpledb.SeqScan&#10;Page&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/PageId.java&#10;HeapFileTest&#9;PSI&#9;JAVA://simpledb.HeapFileReadTest&#10;Db&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/DbFile.java&#10;HeapFile&#9;PSI&#9;JAVA://simpledb.HeapFile&#10;HeapPageR&#9;PSI&#9;JAVA://simpledb.HeapPageReadTest&#10;Re&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/test/simpledb/RecordIdTest.java&#10;RecordIdTe&#9;PSI&#9;JAVA://simpledb.RecordIdTest&#10;HeapPageIdT&#9;PSI&#9;JAVA://simpledb.HeapPageIdTest&#10;Recor&#9;PSI&#9;JAVA://simpledb.RecordId&#10;Buffe&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/BufferPool.java&#10;Ca&#9;PSI&#9;JAVA://simpledb.CatalogTest&#10;Cata&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/Catalog.java&#10;Fie&#9;PSI&#9;JAVA://simpledb.Field&#10;Type&#9;PSI&#9;JAVA://simpledb.Type&#10;tu&#9;PSI&#9;JAVA://simpledb.TupleDesc" />
+    <property name="SearchEverywhereHistoryKey" value="Evic&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/EvictionTest.java&#10;Buff&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/BufferPool.java&#10;Inser&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/InsertTest.java&#10;Dele&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/DeleteTest.java&#10;Buffer&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/BufferPool.java&#10;Del&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Delete.java&#10;DeleteTest&#9;PSI&#9;JAVA://simpledb.systemtest.DeleteTest&#10;Delete&#9;PSI&#9;JAVA://simpledb.Delete&#10;InserTest&#9;PSI&#9;JAVA://simpledb.systemtest.InsertTest&#10;Insert&#9;PSI&#9;JAVA://simpledb.Insert&#10;HeapPage&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/HeapPage.java&#10;HeapFileW&#9;PSI&#9;JAVA://simpledb.HeapFileWriteTest&#10;HeapPageW&#9;PSI&#9;JAVA://simpledb.HeapPageWriteTest&#10;Heap&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/HeapFileReadTest.java&#10;HeapPa&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/HeapPage.java&#10;BUff&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/BufferPool.java&#10;Tuple&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Tuple.java&#10;Dbfile&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/DbFile.java&#10;HeapFil&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/HeapFile.java&#10;Aggre&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/AggregateTest.java&#10;JoinTest&#9;PSI&#9;JAVA://simpledb.systemtest.JoinTest&#10;Filter&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/systemtest/FilterTest.java&#10;Join&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Join.java&#10;Predicate&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/PredicateTest.java&#10;JoinPre&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/JoinPredicateTest.java&#10;Predic&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/PredicateTest.java&#10;ScanTest&#9;PSI&#9;JAVA://simpledb.systemtest.ScanTest&#10;FilterTest&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/FilterTest.java&#10;AggregateTest&#9;PSI&#9;JAVA://simpledb.systemtest.AggregateTest&#10;Aggregate&#9;PSI&#9;JAVA://simpledb.systemtest.AggregateTest&#10;AggregateT&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/AggregateTest.java&#10;Integer&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/IntegerAggregator.java&#10;String&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/test/simpledb/StringAggregatorTest.java&#10;Fil&#9;FILE&#9;file:///home/lzc/Workspace/Course/CS186/simpleDB/src/java/simpledb/Filter.java&#10;Scan&#9;PSI&#9;JAVA://simpledb.systemtest.ScanTest&#10;Seq&#9;PSI&#9;JAVA://simpledb.SeqScan&#10;Page&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/PageId.java&#10;HeapFileTest&#9;PSI&#9;JAVA://simpledb.HeapFileReadTest&#10;Db&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/DbFile.java&#10;HeapFile&#9;PSI&#9;JAVA://simpledb.HeapFile&#10;HeapPageR&#9;PSI&#9;JAVA://simpledb.HeapPageReadTest&#10;Re&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/test/simpledb/RecordIdTest.java&#10;RecordIdTe&#9;PSI&#9;JAVA://simpledb.RecordIdTest&#10;HeapPageIdT&#9;PSI&#9;JAVA://simpledb.HeapPageIdTest&#10;Recor&#9;PSI&#9;JAVA://simpledb.RecordId&#10;Buffe&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/BufferPool.java&#10;Ca&#9;PSI&#9;JAVA://simpledb.CatalogTest&#10;Cata&#9;FILE&#9;file:///home/lzc/Workspace/Course/cs186-13fall/project/CS186-proj1/src/java/simpledb/Catalog.java&#10;Fie&#9;PSI&#9;JAVA://simpledb.Field&#10;Type&#9;PSI&#9;JAVA://simpledb.Type" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -190,7 +197,7 @@
     </option>
   </component>
   <component name="RunManager" selected="JUnit.ScanTest">
-    <configuration default="false" name="InsertTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="EvictionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="simpledb.systemtest.*" />
@@ -201,33 +208,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="simpledb.systemtest" />
-      <option name="MAIN_CLASS_NAME" value="simpledb.systemtest.InsertTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="AggregateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="simpledb.systemtest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="simpledb" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="simpledb.systemtest" />
-      <option name="MAIN_CLASS_NAME" value="simpledb.systemtest.AggregateTest" />
+      <option name="MAIN_CLASS_NAME" value="simpledb.systemtest.EvictionTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -254,6 +235,32 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="simpledb.systemtest" />
       <option name="MAIN_CLASS_NAME" value="simpledb.systemtest.FilterTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="InsertTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="simpledb.systemtest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="simpledb" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="simpledb.systemtest" />
+      <option name="MAIN_CLASS_NAME" value="simpledb.systemtest.InsertTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -455,9 +462,9 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Ant Target.runsystest" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.InsertTest (1)" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.AggregateTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.FilterTest" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.EvictionTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.FilterTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.InsertTest" />
       <item index="4" class="java.lang.String" itemvalue="JUnit.JoinTest" />
       <item index="5" class="java.lang.String" itemvalue="JUnit.ScanTest" />
     </list>
@@ -465,9 +472,9 @@
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="JUnit.ScanTest" />
         <item index="1" class="java.lang.String" itemvalue="JUnit.JoinTest" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.InsertTest (1)" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.InsertTest" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.FilterTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.AggregateTest" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.EvictionTest" />
       </list>
     </recent_temporary>
   </component>
@@ -513,42 +520,49 @@
       <option name="project" value="LOCAL" />
       <updated>1497627440041</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Project 2, Exercise 4 passed.">
+      <created>1497668516208</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1497668516208</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="AggregateTest - 2017.06.17 at 10h 58m 12s.xml">
+    <history-entry file="AggregateTest - 2017.06.17 at 11h 28m 31s.xml">
       <configuration name="AggregateTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DeleteTest - 2017.06.17 at 10h 56m 32s.xml">
+    <history-entry file="DeleteTest - 2017.06.17 at 11h 28m 35s.xml">
       <configuration name="DeleteTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DeleteTest_testEquals - 2017.06.17 at 10h 55m 51s.xml">
+    <history-entry file="DeleteTest_testEquals - 2017.06.17 at 11h 27m 19s.xml">
       <configuration name="DeleteTest.testEquals" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DeleteTest_testEquals - 2017.06.17 at 10h 56m 28s.xml">
-      <configuration name="DeleteTest.testEquals" configurationId="JUnit" />
+    <history-entry file="EvictionTest - 2017.06.17 at 11h 27m 20s.xml">
+      <configuration name="EvictionTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="FilterTest - 2017.06.17 at 10h 58m 23s.xml">
+    <history-entry file="EvictionTest - 2017.06.17 at 11h 28m 16s.xml">
+      <configuration name="EvictionTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EvictionTest - 2017.06.17 at 11h 29m 28s.xml">
+      <configuration name="EvictionTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FilterTest - 2017.06.17 at 11h 29m 31s.xml">
       <configuration name="FilterTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InsertTest_(1) - 2017.06.17 at 10h 57m 42s.xml">
-      <configuration name="InsertTest (1)" configurationId="JUnit" />
+    <history-entry file="InsertTest - 2017.06.17 at 11h 29m 35s.xml">
+      <configuration name="InsertTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InsertTest_(1) - 2017.06.17 at 10h 58m 09s.xml">
-      <configuration name="InsertTest (1)" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="InsertTest_(1) - 2017.06.17 at 10h 58m 28s.xml">
-      <configuration name="InsertTest (1)" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="JoinTest - 2017.06.17 at 10h 58m 32s.xml">
+    <history-entry file="JoinTest - 2017.06.17 at 11h 29m 38s.xml">
       <configuration name="JoinTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ScanTest - 2017.06.17 at 10h 58m 36s.xml">
+    <history-entry file="ScanTest - 2017.06.17 at 11h 29m 42s.xml">
       <configuration name="ScanTest" configurationId="JUnit" />
     </history-entry>
   </component>
-  <component name="TodoView" selected-index="1">
+  <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -570,10 +584,10 @@
       <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32686085" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5145631" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27954546" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27954546" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22878788" sideWeight="0.487055" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22878788" sideWeight="0.487055" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39967638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22121212" sideWeight="0.512945" order="2" side_tool="true" content_ui="tabs" />
@@ -621,7 +635,8 @@
     <MESSAGE value="Project 2, Exercise 2, AVG function not done" />
     <MESSAGE value="Project 2, Exercise 1 fixed and passed." />
     <MESSAGE value="Project 2, Exercise 3 passed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Project 2, Exercise 3 passed." />
+    <MESSAGE value="Project 2, Exercise 4 passed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project 2, Exercise 4 passed." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -643,12 +658,6 @@
           <line>65</line>
           <properties />
           <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/test/simpledb/systemtest/DeleteTest.java</url>
-          <line>14</line>
-          <properties />
-          <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/test/simpledb/systemtest/SystemTestUtil.java</url>
@@ -1013,16 +1022,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/simpledb/systemtest/DeleteTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/simpledb/systemtest/SystemTestUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -1099,6 +1098,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/simpledb/systemtest/DeleteTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/simpledb/systemtest/EvictionTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -1109,8 +1118,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/simpledb/BufferPool.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="78" column="11" lean-forward="false" selection-start-line="78" selection-start-column="11" selection-end-line="78" selection-end-column="11" />
+        <state relative-caret-position="345">
+          <caret line="218" column="32" lean-forward="true" selection-start-line="218" selection-start-column="32" selection-end-line="218" selection-end-column="32" />
           <folding />
         </state>
       </provider>

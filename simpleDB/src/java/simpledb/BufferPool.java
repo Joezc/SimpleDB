@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class BufferPool {
     private int numPages;
     private HashMap<PageId, Page> pageMap;
+    private PageId recent;
 
     /** Bytes per page, including header. */
     public static final int PAGE_SIZE = 4096;
@@ -52,18 +53,19 @@ public class BufferPool {
      */
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
+        Page res;
         if (pageMap.containsKey(pid)) {
-            return pageMap.get(pid);
+            res = pageMap.get(pid);
         } else {
-            if (pageMap.size() > numPages) {
-                throw new DbException("space not sufficent");
-            } else {
-                Page tmp = Database.getCatalog()
-                        .getDbFile(pid.getTableId()).readPage(pid);
-                pageMap.put(pid, tmp);
-                return tmp;
+            if (pageMap.size() >= numPages) {
+                this.evictPage();
             }
+            res = Database.getCatalog()
+                    .getDbFile(pid.getTableId()).readPage(pid);
+            pageMap.put(pid, res);
         }
+        recent = pid;
+        return res;
     }
 
     /**
@@ -164,9 +166,9 @@ public class BufferPool {
      *     break simpledb if running in NO STEAL mode.
      */
     public synchronized void flushAllPages() throws IOException {
-        // some code goes here
-        // not necessary for proj1
-
+        for (PageId pid: this.pageMap.keySet()) {
+            flushPage(pid);
+        }
     }
 
     /** Remove the specific page id from the buffer pool.
@@ -184,8 +186,11 @@ public class BufferPool {
      * @param pid an ID indicating the page to flush
      */
     private synchronized  void flushPage(PageId pid) throws IOException {
-        // some code goes here
-        // not necessary for proj1
+        Page p = this.pageMap.get(pid);
+        int tableid = pid.getTableId();
+        HeapFile hf = (HeapFile)Database.getCatalog().getDbFile(tableid);
+        hf.writePage(p);
+        p.markDirty(true, null);
     }
 
     /** Write all pages of the specified transaction to disk.
@@ -201,7 +206,19 @@ public class BufferPool {
      */
     private synchronized  void evictPage() throws DbException {
         // some code goes here
-        // not necessary for proj1
+        PageId evicted = recent;
+        if (evicted == null) {
+            for (PageId pid: this.pageMap.keySet()) {
+                evicted = pid;
+                break;
+            }
+        }
+        try {
+            this.flushPage(evicted);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.pageMap.remove(evicted);
     }
 
 }
