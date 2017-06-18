@@ -131,8 +131,19 @@ public class TupleDesc implements Serializable {
      *             if no field with a matching name is found.
      */
     public int fieldNameToIndex(String name) throws NoSuchElementException {
+        String descName;
+        if (name.contains(".")) {
+            String[] parts = name.split("\\.");
+            if (parts.length >= 2) {
+                descName = parts[1];
+            } else {
+                descName = name;
+            }
+        } else {
+            descName = name;
+        }
         for (int i=0; i < TDList.size(); i++) {
-            if (TDList.get(i).fieldName.equals(name)) {
+            if (TDList.get(i).fieldName.equals(descName)) {
                 return i;
             }
         }

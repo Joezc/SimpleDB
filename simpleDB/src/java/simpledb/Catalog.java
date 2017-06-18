@@ -72,12 +72,12 @@ public class Catalog {
     public int getTableId(String name) throws NoSuchElementException {
         for (Map.Entry<Integer,Table> entry : tableMap.entrySet()){
             Table value = entry.getValue();
-            if (value.name == name) {
+            if (value.name.equals(name)) {
                 int key = entry.getKey();
                 return key;
             }
         }
-        throw new NoSuchElementException();
+        throw new NoSuchElementException("Table doesn't exist");
     }
 
     /**

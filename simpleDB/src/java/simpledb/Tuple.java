@@ -113,7 +113,6 @@ public class Tuple implements Serializable {
             s += '\t';
         }
         s += '\n';
-//        throw new UnsupportedOperationException("Implement this");
         return s;
     }
     
