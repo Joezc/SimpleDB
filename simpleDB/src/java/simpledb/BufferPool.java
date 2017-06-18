@@ -3,6 +3,7 @@ package simpledb;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * BufferPool manages the reading and writing of pages into memory from
@@ -15,8 +16,7 @@ import java.util.HashMap;
  */
 public class BufferPool {
     private int numPages;
-    private HashMap<PageId, Page> pageMap;
-    private PageId recent;
+    private LinkedHashMap<PageId, Page> pageMap;
 
     /** Bytes per page, including header. */
     public static final int PAGE_SIZE = 4096;
@@ -33,7 +33,7 @@ public class BufferPool {
      */
     public BufferPool(int numPages) {
         this.numPages = numPages;
-        this.pageMap = new HashMap<PageId, Page>();
+        this.pageMap = new LinkedHashMap<>();
     }
 
     /**
@@ -56,6 +56,9 @@ public class BufferPool {
         Page res;
         if (pageMap.containsKey(pid)) {
             res = pageMap.get(pid);
+            // remove the page to the last
+            pageMap.remove(pid);
+            pageMap.put(pid, res);
         } else {
             if (pageMap.size() >= numPages) {
                 this.evictPage();
@@ -64,7 +67,6 @@ public class BufferPool {
                     .getDbFile(pid.getTableId()).readPage(pid);
             pageMap.put(pid, res);
         }
-        recent = pid;
         return res;
     }
 
@@ -205,13 +207,10 @@ public class BufferPool {
      * Flushes the page to disk to ensure dirty pages are updated on disk.
      */
     private synchronized  void evictPage() throws DbException {
-        // some code goes here
-        PageId evicted = recent;
-        if (evicted == null) {
-            for (PageId pid: this.pageMap.keySet()) {
-                evicted = pid;
-                break;
-            }
+        PageId evicted = null;
+        for (PageId pid: this.pageMap.keySet()) {
+            evicted = pid;
+            break;
         }
         try {
             this.flushPage(evicted);

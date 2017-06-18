@@ -1,6 +1,9 @@
 package simpledb;
 
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by lzc on 17-6-12.
@@ -8,7 +11,8 @@ import java.io.File;
 public class test {
     public static void main(String[] argv) {
 //        testSeqScan();
-        jointest();
+//        jointest();
+        testLinkedHashMap();
     }
 
     public static void testSeqScan() {
@@ -108,4 +112,24 @@ public class test {
 
     }
 
+    public static void testLinkedHashMap() {
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+        map.put("h1", 1);
+        for (Map.Entry<String, Integer>entry: map.entrySet()) System.out.println(entry.getKey() + ": " + entry.getValue());System.out.println();
+        map.put("h2", 1);
+        for (Map.Entry<String, Integer>entry: map.entrySet()) System.out.println(entry.getKey() + ": " + entry.getValue());System.out.println();
+        map.remove("h1");
+        for (Map.Entry<String, Integer>entry: map.entrySet()) System.out.println(entry.getKey() + ": " + entry.getValue());System.out.println();
+        map.put("h1", 12);
+        for (Map.Entry<String, Integer>entry: map.entrySet()) System.out.println(entry.getKey() + ": " + entry.getValue());System.out.println();
+
+        String tmp = null;
+        for (Map.Entry<String, Integer>entry: map.entrySet()) {
+            tmp = entry.getKey();
+            break;
+        }
+        map.remove(tmp);
+        for (Map.Entry<String, Integer>entry: map.entrySet()) System.out.println(entry.getKey() + ": " + entry.getValue());System.out.println();
+
+    }
 }
