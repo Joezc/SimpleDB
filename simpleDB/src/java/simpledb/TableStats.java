@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * TableStats represents statistics (e.g., histograms) about base tables in a
+ * TableStats represents statistics (e.g., intHistograms) about base tables in a
  * query. 
  * 
  * This class is not needed in implementing proj1 and proj2.
@@ -62,9 +62,15 @@ public class TableStats {
     /**
      * Number of bins for the histogram. Feel free to increase this value over
      * 100, though our tests assume that you have at least 100 bins in your
-     * histograms.
+     * intHistograms.
      */
     static final int NUM_HIST_BINS = 100;
+
+    private int tableid;
+    private int ioCostPerPage;
+    private IntHistogram[] intHistograms;
+    private StringHistogram[] strHistograms;
+    private int ntups;
 
     /**
      * Create a new TableStats object, that keeps track of statistics on each
@@ -84,7 +90,82 @@ public class TableStats {
         // You should try to do this reasonably efficiently, but you don't
         // necessarily have to (for example) do everything
         // in a single scan of the table.
-        // some code goes here
+        this.tableid = tableid;
+        this.ioCostPerPage = ioCostPerPage;
+        this.ntups = 0;
+        getHistogram();
+    }
+
+    private void getHistogram() {
+        HeapFile hf = (HeapFile)Database.getCatalog().getDbFile(tableid);
+        Transaction t = new Transaction();
+        TransactionId tid = new TransactionId();
+        DbFileIterator it = hf.iterator(tid);
+        TupleDesc td = hf.getTupleDesc();
+        Tuple mint = new Tuple(td);
+        Tuple maxt = new Tuple(td);
+        try {
+            it.open();
+            while (it.hasNext()) {
+                Tuple tuple = it.next();
+                this.ntups++;
+                for (int i=0; i<td.numFields(); i++) {
+                    String fieldname = td.getFieldName(i);
+                    Type type = td.getFieldType(i);
+                    if (type.equals(Type.INT_TYPE)) {
+                        int tmp = ((IntField)tuple.getField(i)).getValue();
+                        if (mint.getField(i) == null) {
+                            mint.setField(i, new IntField(tmp));
+                        } else {
+                            int tmpmin = ((IntField)mint.getField(i)).getValue();
+                            if (tmp < tmpmin) {
+                                mint.setField(i, new IntField(tmp));
+                            }
+                        }
+                        if (maxt.getField(i) == null) {
+                            maxt.setField(i, new IntField(tmp));
+                        } else {
+                            int tmpmax = ((IntField) maxt.getField(i)).getValue();
+                            if (tmp > tmpmax) {
+                                maxt.setField(i, new IntField(tmp));
+                            }
+                        }
+                    }
+                }
+            }
+
+            intHistograms = new IntHistogram[td.numFields()];
+            strHistograms = new StringHistogram[td.numFields()];
+            for (int i=0; i<td.numFields(); i++) {
+                if (td.getFieldType(i).equals(Type.INT_TYPE)) {
+                    int mini = ((IntField) mint.getField(i)).getValue();
+                    int maxi = ((IntField) maxt.getField(i)).getValue();
+                    intHistograms[i] = new IntHistogram(NUM_HIST_BINS, mini, maxi);
+                } else {
+                    strHistograms[i] = new StringHistogram(NUM_HIST_BINS);
+                }
+            }
+
+            it.rewind();
+            while (it.hasNext()) {
+                Tuple tuple = it.next();
+                for (int i=0; i<td.numFields(); i++) {
+                    String fieldname = td.getFieldName(i);
+                    Type type = td.getFieldType(i);
+                    if (type.equals(Type.INT_TYPE)) {
+                        int tmp = ((IntField)tuple.getField(i)).getValue();
+                        intHistograms[i].addValue(tmp);
+                    } else {
+                        String tmp = ((StringField)tuple.getField(i)).getValue();
+                        strHistograms[i].addValue(tmp);
+                    }
+                }
+            }
+        } catch (TransactionAbortedException e) {
+            e.printStackTrace();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -100,8 +181,8 @@ public class TableStats {
      * @return The estimated cost of scanning the table.
      */
     public double estimateScanCost() {
-        // some code goes here
-        return 0;
+        HeapFile hf = (HeapFile)Database.getCatalog().getDbFile(tableid);
+        return hf.numPages()*ioCostPerPage;
     }
 
     /**
@@ -114,8 +195,8 @@ public class TableStats {
      *         selectivityFactor
      */
     public int estimateTableCardinality(double selectivityFactor) {
-        // some code goes here
-        return 0;
+        int ntups = totalTuples();
+        return (int)Math.ceil(ntups*selectivityFactor);
     }
 
     /**
@@ -126,7 +207,7 @@ public class TableStats {
      *        the operator in the predicate
      * The semantic of the method is that, given the table, and then given a
      * tuple, of which we do not know the value of the field, return the
-     * expected selectivity. You may estimate this value from the histograms.
+     * expected selectivity. You may estimate this value from the intHistograms.
      * */
     public double avgSelectivity(int field, Predicate.Op op) {
         // some code goes here
@@ -147,16 +228,20 @@ public class TableStats {
      *         predicate
      */
     public double estimateSelectivity(int field, Predicate.Op op, Field constant) {
-        // some code goes here
-        return 1.0;
+        if (constant.getType().equals(Type.INT_TYPE)) {
+            int value = ((IntField)constant).getValue();
+            return intHistograms[field].estimateSelectivity(op, value);
+        } else {
+            String value = ((StringField)constant).getValue();
+            return strHistograms[field].estimateSelectivity(op, value);
+        }
     }
 
     /**
      * return the total number of tuples in this table
      * */
     public int totalTuples() {
-        // some code goes here
-        return 0;
+        return this.ntups;
     }
 
 }
