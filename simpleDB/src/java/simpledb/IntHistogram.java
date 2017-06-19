@@ -3,7 +3,12 @@ package simpledb;
 /** A class to represent a fixed-width histogram over a single integer-based field.
  */
 public class IntHistogram {
-
+    private int min;
+    private int max;
+    private int buckets;
+    private int[] histogram;
+    private int width;
+    private int ntups;
     /**
      * Create a new IntHistogram.
      * 
@@ -21,7 +26,14 @@ public class IntHistogram {
      * @param max The maximum integer value that will ever be passed to this class for histogramming
      */
     public IntHistogram(int buckets, int min, int max) {
-    	// some code goes here
+        this.min = min;
+        this.max = max;
+        this.buckets = buckets;
+        this.histogram = new int[buckets];
+
+        double range = (double) (max-min+1)/buckets;
+        this.width = (int) Math.ceil(range);
+        this.ntups = 0;
     }
 
     /**
@@ -29,7 +41,15 @@ public class IntHistogram {
      * @param v Value to add to the histogram
      */
     public void addValue(int v) {
-    	// some code goes here
+        if (v == min) {
+            histogram[0]++;
+        } else if (v == max) {
+            histogram[buckets-1]++;
+        } else {
+            int idx = (v - min) / width;
+            histogram[idx]++;
+        }
+        this.ntups++;
     }
 
     /**
@@ -43,9 +63,54 @@ public class IntHistogram {
      * @return Predicted selectivity of this particular operator and value
      */
     public double estimateSelectivity(Predicate.Op op, int v) {
-
-    	// some code goes here
-        return -1.0;
+        double res = -1.0;
+        int idx = (v-min)/width;
+        int left = idx * width + min;
+        int right = idx * width + min + width -1;
+        if (op.equals(Predicate.Op.EQUALS) || op.equals(Predicate.Op.LIKE) || op.equals(Predicate.Op.NOT_EQUALS)) {
+            if (v < min || v > max) {
+                res = 0.0;
+            } else {
+                res = (double)(histogram[idx] / width) / ntups;
+            }
+            if (op.equals(Predicate.Op.NOT_EQUALS)) {
+                res = 1.0 - res;
+            }
+        } else {
+            if (op.equals(Predicate.Op.GREATER_THAN) || (op.equals(Predicate.Op.GREATER_THAN_OR_EQ))) {
+                if (v < min) {
+                    res = 1.0;
+                } else if (v >= max){
+                    res = 0.0;
+                } else{
+                    int s = 0;
+                    for (int i = idx + 1; i < histogram.length; i++) {
+                        s += histogram[i];
+                    }
+                    res = (double)histogram[idx] / ntups * (right - v) / width + 1.0 * s / ntups;
+                    if (op.equals(Predicate.Op.GREATER_THAN_OR_EQ)) {
+                        res += (double)histogram[idx]/width/ntups;
+                    }
+                }
+            }
+            if (op.equals(Predicate.Op.LESS_THAN) || op.equals(Predicate.Op.LESS_THAN_OR_EQ)) {
+                if (v < min) {
+                    res = 0.0;
+                } else if (v >= max){
+                    res = 1.0;
+                } else{
+                    int s = 0;
+                    for (int i = 0; i < idx; i++) {
+                        s += histogram[i];
+                    }
+                    res = (double)histogram[idx] / ntups * (v - left) / width + 1.0 * s / ntups;
+                    if (op.equals(Predicate.Op.LESS_THAN_OR_EQ)) {
+                        res += (double)histogram[idx]/width/ntups;
+                    }
+                }
+            }
+        }
+        return res;
     }
     
     /**
