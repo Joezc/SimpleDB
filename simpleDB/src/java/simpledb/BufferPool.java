@@ -1,9 +1,7 @@
 package simpledb;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * BufferPool manages the reading and writing of pages into memory from
@@ -17,6 +15,9 @@ import java.util.LinkedHashMap;
 public class BufferPool {
     private int numPages;
     private LinkedHashMap<PageId, Page> pageMap;
+
+    private HashMap<PageId, Set<TransactionId>> pageReadLocks;
+    private HashMap<PageId, TransactionId> pageWriteLocks;
 
     /** Bytes per page, including header. */
     public static final int PAGE_SIZE = 4096;
@@ -34,6 +35,9 @@ public class BufferPool {
     public BufferPool(int numPages) {
         this.numPages = numPages;
         this.pageMap = new LinkedHashMap<>();
+
+        this.pageReadLocks = new HashMap<>();
+        this.pageWriteLocks = new HashMap<>();
     }
 
     /**
@@ -53,6 +57,14 @@ public class BufferPool {
      */
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
+        while (!grantLock(tid, pid, perm)) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         Page res;
         if (pageMap.containsKey(pid)) {
             res = pageMap.get(pid);
@@ -80,8 +92,15 @@ public class BufferPool {
      * @param pid the ID of the page to unlock
      */
     public  void releasePage(TransactionId tid, PageId pid) {
-        // some code goes here
-        // not necessary for proj1
+        Set<TransactionId> rtid = pageReadLocks.get(pid);
+        TransactionId wtid = pageWriteLocks.get(pid);
+        if (rtid != null && rtid.contains(tid)) {
+            rtid.remove(tid);
+            pageReadLocks.put(pid, rtid);
+        }
+        if (wtid != null && wtid.equals(tid)) {
+            pageWriteLocks.remove(pid);
+        }
     }
 
     /**
@@ -96,9 +115,9 @@ public class BufferPool {
 
     /** Return true if the specified transaction has a lock on the specified page */
     public boolean holdsLock(TransactionId tid, PageId p) {
-        // some code goes here
-        // not necessary for proj1
-        return false;
+        Set<TransactionId> rtid = pageReadLocks.get(p);
+        TransactionId wtid = pageWriteLocks.get(p);
+        return rtid.contains(tid) || wtid.equals(tid);
     }
 
     /**
@@ -208,9 +227,9 @@ public class BufferPool {
      */
     private synchronized  void evictPage() throws DbException {
         PageId evicted = null;
-        for (PageId pid: this.pageMap.keySet()) {
-            evicted = pid;
-            break;
+        Iterator<PageId> it = this.pageMap.keySet().iterator();
+        if (it.hasNext()) {
+            evicted = it.next();
         }
         try {
             this.flushPage(evicted);
@@ -220,4 +239,39 @@ public class BufferPool {
         this.pageMap.remove(evicted);
     }
 
+    private synchronized boolean grantLock(TransactionId tid,
+                                           PageId pid, Permissions perm) {
+        Set<TransactionId> rtid = pageReadLocks.get(pid);
+        TransactionId wtid = pageWriteLocks.get(pid);
+        if (perm.equals(Permissions.READ_ONLY)) {
+            if (wtid == null || wtid.equals(tid)) {
+                if (rtid == null) {
+                    rtid = new HashSet<>();
+                }
+                rtid.add(tid);
+                pageReadLocks.put(pid, rtid);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (wtid != null) {
+                return wtid.equals(tid);
+            } else {
+                if (rtid != null) {
+                    if ((rtid.size() == 1) && rtid.contains(tid)) {
+                        rtid.remove(tid);
+                        pageReadLocks.put(pid, rtid);
+                        pageWriteLocks.put(pid, tid);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    pageWriteLocks.put(pid, tid);
+                    return true;
+                }
+            }
+        }
+    }
 }
