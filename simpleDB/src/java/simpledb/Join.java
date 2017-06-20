@@ -131,13 +131,18 @@ public class Join extends Operator {
 
     @Override
     public DbIterator[] getChildren() {
-        // some code goes here
-        return null;
+        return new DbIterator[]{this.child1, this.child2};
     }
 
     @Override
     public void setChildren(DbIterator[] children) {
         // some code goes here
+        if (children.length>=1) {
+            this.child1 = children[0];
+            if (children.length >= 2) {
+                this.child2 = children[1];
+            }
+        }
     }
 
 }
