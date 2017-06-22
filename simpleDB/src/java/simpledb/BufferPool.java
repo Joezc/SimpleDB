@@ -68,7 +68,7 @@ public class BufferPool {
         Page res;
         if (pageMap.containsKey(pid)) {
             res = pageMap.get(pid);
-            // remove the page to the last
+            // move the page to the last
             pageMap.remove(pid);
             pageMap.put(pid, res);
         } else {
@@ -96,7 +96,7 @@ public class BufferPool {
         TransactionId wtid = pageWriteLocks.get(pid);
         if (rtid != null && rtid.contains(tid)) {
             rtid.remove(tid);
-            pageReadLocks.put(pid, rtid);
+            pageReadLocks.replace(pid, rtid);
         }
         if (wtid != null && wtid.equals(tid)) {
             pageWriteLocks.remove(pid);
@@ -109,8 +109,7 @@ public class BufferPool {
      * @param tid the ID of the transaction requesting the unlock
      */
     public void transactionComplete(TransactionId tid) throws IOException {
-        // some code goes here
-        // not necessary for proj1
+        transactionComplete(tid, true);
     }
 
     /** Return true if the specified transaction has a lock on the specified page */
@@ -129,8 +128,21 @@ public class BufferPool {
      */
     public void transactionComplete(TransactionId tid, boolean commit)
         throws IOException {
-        // some code goes here
-        // not necessary for proj1
+        for (Map.Entry<PageId, Page> entry: this.pageMap.entrySet()) {
+            PageId pid = entry.getKey();
+            Page page = entry.getValue();
+            if ((pageReadLocks.containsKey(pid) && pageReadLocks.get(pid).contains(tid)) ||
+                    (pageWriteLocks.containsKey(pid) && pageWriteLocks.get(pid).equals(tid))) {
+                if (page.isDirty() != null && page.isDirty().equals(tid)) {
+                    if (commit) {
+                        flushPage(pid);
+                    } else {
+                        pageMap.replace(pid, page.getBeforeImage());
+                    }
+                }
+                releasePage(tid, pid);
+            }
+        }
     }
 
     /**
@@ -154,7 +166,7 @@ public class BufferPool {
         ArrayList<Page> affectedPages = hf.insertTuple(tid, t);
         for (Page p: affectedPages) {
             p.markDirty(true, tid);
-            pageMap.put(p.getId(), p);
+//            pageMap.put(p.getId(), p);
         }
     }
 
@@ -198,8 +210,9 @@ public class BufferPool {
         cache.
     */
     public synchronized void discardPage(PageId pid) {
-        // some code goes here
-	// not necessary for proj1
+        pageReadLocks.remove(pid);
+        pageWriteLocks.remove(pid);
+        this.pageMap.remove(pid);
     }
 
     /**
@@ -211,14 +224,22 @@ public class BufferPool {
         int tableid = pid.getTableId();
         HeapFile hf = (HeapFile)Database.getCatalog().getDbFile(tableid);
         hf.writePage(p);
-        p.markDirty(true, null);
+        p.markDirty(false, null);
     }
 
     /** Write all pages of the specified transaction to disk.
      */
     public synchronized  void flushPages(TransactionId tid) throws IOException {
-        // some code goes here
-        // not necessary for proj1
+        for (Map.Entry<PageId, Page> entry: this.pageMap.entrySet()) {
+            PageId pid = entry.getKey();
+            Page page = entry.getValue();
+            if ((pageReadLocks.containsKey(pid) && pageReadLocks.get(pid).contains(tid)) ||
+                    (pageWriteLocks.containsKey(pid) && pageWriteLocks.get(pid).equals(tid))) {
+                if (page.isDirty() != null && page.isDirty().equals(tid)) {
+                    flushPage(pid);
+                }
+            }
+        }
     }
 
     /**
@@ -228,15 +249,18 @@ public class BufferPool {
     private synchronized  void evictPage() throws DbException {
         PageId evicted = null;
         Iterator<PageId> it = this.pageMap.keySet().iterator();
-        if (it.hasNext()) {
+        boolean isFind = false;
+        while (it.hasNext()) {
             evicted = it.next();
+            if (pageMap.get(evicted).isDirty() == null) {
+                isFind = true;
+                break;
+            }
         }
-        try {
-            this.flushPage(evicted);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!isFind) {
+            throw new DbException("all pages in buffer pool are dirty");
         }
-        this.pageMap.remove(evicted);
+        discardPage(evicted);
     }
 
     private synchronized boolean grantLock(TransactionId tid,
@@ -258,7 +282,7 @@ public class BufferPool {
             if (wtid != null) {
                 return wtid.equals(tid);
             } else {
-                if (rtid != null) {
+                if (rtid != null && rtid.size() > 0) {
                     if ((rtid.size() == 1) && rtid.contains(tid)) {
                         rtid.remove(tid);
                         pageReadLocks.put(pid, rtid);

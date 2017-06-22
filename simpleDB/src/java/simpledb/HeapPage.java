@@ -18,7 +18,6 @@ public class HeapPage implements Page {
     byte header[];  // bit map whether tuple available
     Tuple tuples[]; //
     int numSlots;
-    boolean isDirty;
 
     byte[] oldData;
     private TransactionId tid;
@@ -61,6 +60,8 @@ public class HeapPage implements Page {
         dis.close();
 
         setBeforeImage();
+
+        tid = null;
     }
 
     /** Retrieve the number of tuples on this page.
@@ -282,7 +283,6 @@ public class HeapPage implements Page {
      * that did the dirtying
      */
     public void markDirty(boolean dirty, TransactionId tid) {
-        this.isDirty = dirty;
         if (dirty) {
             this.tid = tid;
         } else {

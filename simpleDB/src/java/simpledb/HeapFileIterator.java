@@ -34,11 +34,8 @@ public class HeapFileIterator implements DbFileIterator {
         Page page = Database.getBufferPool().getPage(tid,
                 pageId, Permissions.READ_ONLY);
 
-        ArrayList<Tuple> tupleList = new ArrayList<Tuple>();
-
         HeapPage hp = (HeapPage)page;
-        Iterator<Tuple> itr = hp.iterator();
-        return itr;
+        return hp.iterator();
     }
 
     // see DbFileIterator.java for javadocs
