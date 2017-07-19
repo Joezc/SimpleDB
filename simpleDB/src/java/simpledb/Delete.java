@@ -57,6 +57,7 @@ public class Delete extends Operator {
      * @see BufferPool#deleteTuple
      */
     protected Tuple fetchNext() throws TransactionAbortedException, DbException {
+        Tuple res = new Tuple(this.td);
         int cnt;
         try {
             cnt = 0;
@@ -75,7 +76,6 @@ public class Delete extends Operator {
             return null;
         }
         IntField intf = new IntField(cnt);
-        Tuple res = new Tuple(this.td);
         res.setField(0, intf);
         return res;
     }

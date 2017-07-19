@@ -16,8 +16,7 @@ public class BufferPool {
     private int numPages;
     private LinkedHashMap<PageId, Page> pageMap;
 
-    private HashMap<PageId, Set<TransactionId>> pageReadLocks;
-    private HashMap<PageId, TransactionId> pageWriteLocks;
+    private LockManager lockManager;
 
     /** Bytes per page, including header. */
     public static final int PAGE_SIZE = 4096;
@@ -36,8 +35,7 @@ public class BufferPool {
         this.numPages = numPages;
         this.pageMap = new LinkedHashMap<>();
 
-        this.pageReadLocks = new HashMap<>();
-        this.pageWriteLocks = new HashMap<>();
+        lockManager = LockManager.create();
     }
 
     /**
@@ -57,13 +55,7 @@ public class BufferPool {
      */
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
-        while (!grantLock(tid, pid, perm)) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        lockManager.acquireLock(tid, pid, perm);
 
         Page res;
         if (pageMap.containsKey(pid)) {
@@ -92,15 +84,7 @@ public class BufferPool {
      * @param pid the ID of the page to unlock
      */
     public  void releasePage(TransactionId tid, PageId pid) {
-        Set<TransactionId> rtid = pageReadLocks.get(pid);
-        TransactionId wtid = pageWriteLocks.get(pid);
-        if (rtid != null && rtid.contains(tid)) {
-            rtid.remove(tid);
-            pageReadLocks.replace(pid, rtid);
-        }
-        if (wtid != null && wtid.equals(tid)) {
-            pageWriteLocks.remove(pid);
-        }
+        lockManager.releasePage(tid, pid);
     }
 
     /**
@@ -114,9 +98,7 @@ public class BufferPool {
 
     /** Return true if the specified transaction has a lock on the specified page */
     public boolean holdsLock(TransactionId tid, PageId p) {
-        Set<TransactionId> rtid = pageReadLocks.get(p);
-        TransactionId wtid = pageWriteLocks.get(p);
-        return rtid.contains(tid) || wtid.equals(tid);
+        return lockManager.holdsLock(tid, p);
     }
 
     /**
@@ -131,18 +113,15 @@ public class BufferPool {
         for (Map.Entry<PageId, Page> entry: this.pageMap.entrySet()) {
             PageId pid = entry.getKey();
             Page page = entry.getValue();
-            if ((pageReadLocks.containsKey(pid) && pageReadLocks.get(pid).contains(tid)) ||
-                    (pageWriteLocks.containsKey(pid) && pageWriteLocks.get(pid).equals(tid))) {
-                if (page.isDirty() != null && page.isDirty().equals(tid)) {
-                    if (commit) {
-                        flushPage(pid);
-                    } else {
-                        pageMap.replace(pid, page.getBeforeImage());
-                    }
+            if (page.isDirty() != null && page.isDirty().equals(tid)) {
+                if (commit) {
+                    flushPage(pid);
+                } else {
+                    pageMap.replace(pid, page.getBeforeImage());
                 }
-                releasePage(tid, pid);
             }
         }
+        lockManager.releasePages(tid);
     }
 
     /**
@@ -210,8 +189,6 @@ public class BufferPool {
         cache.
     */
     public synchronized void discardPage(PageId pid) {
-        pageReadLocks.remove(pid);
-        pageWriteLocks.remove(pid);
         this.pageMap.remove(pid);
     }
 
@@ -233,11 +210,8 @@ public class BufferPool {
         for (Map.Entry<PageId, Page> entry: this.pageMap.entrySet()) {
             PageId pid = entry.getKey();
             Page page = entry.getValue();
-            if ((pageReadLocks.containsKey(pid) && pageReadLocks.get(pid).contains(tid)) ||
-                    (pageWriteLocks.containsKey(pid) && pageWriteLocks.get(pid).equals(tid))) {
-                if (page.isDirty() != null && page.isDirty().equals(tid)) {
-                    flushPage(pid);
-                }
+            if (page.isDirty() != null && page.isDirty().equals(tid)) {
+                flushPage(pid);
             }
         }
     }
@@ -261,41 +235,5 @@ public class BufferPool {
             throw new DbException("all pages in buffer pool are dirty");
         }
         discardPage(evicted);
-    }
-
-    private synchronized boolean grantLock(TransactionId tid,
-                                           PageId pid, Permissions perm) {
-        Set<TransactionId> rtid = pageReadLocks.get(pid);
-        TransactionId wtid = pageWriteLocks.get(pid);
-        if (perm.equals(Permissions.READ_ONLY)) {
-            if (wtid == null || wtid.equals(tid)) {
-                if (rtid == null) {
-                    rtid = new HashSet<>();
-                }
-                rtid.add(tid);
-                pageReadLocks.put(pid, rtid);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            if (wtid != null) {
-                return wtid.equals(tid);
-            } else {
-                if (rtid != null && rtid.size() > 0) {
-                    if ((rtid.size() == 1) && rtid.contains(tid)) {
-                        rtid.remove(tid);
-                        pageReadLocks.put(pid, rtid);
-                        pageWriteLocks.put(pid, tid);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    pageWriteLocks.put(pid, tid);
-                    return true;
-                }
-            }
-        }
     }
 }

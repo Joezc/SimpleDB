@@ -107,6 +107,9 @@ public class Tuple implements Serializable {
      */
     public String toString() {
         // some code goes here
+        if (this.field.size() == 0) {
+            return "\n";
+        }
         String s = "";
         for (Field f: field) {
             s += f.toString();

@@ -143,7 +143,9 @@ public class HeapFile implements DbFile {
         } catch (DbException e) {
             e.printStackTrace();
         } catch (TransactionAbortedException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+//            System.out.println();
+            throw new TransactionAbortedException();
         }
         return null;
     }

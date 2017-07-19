@@ -132,7 +132,7 @@ public class TupleDesc implements Serializable {
      */
     public int fieldNameToIndex(String name) throws NoSuchElementException {
         String descName;
-        if (name.contains(".")) {
+        if (name != null && name.contains(".")) {
             String[] parts = name.split("\\.");
             if (parts.length >= 2) {
                 descName = parts[1];
