@@ -1,6 +1,6 @@
 SimpleDB is a simple database. SimpleDB has the following primary feature:
 
-- Support basic database insert, select, delete, filter and join operation. 
+- Support basic sql operations, like "select", "from", "where", "group by", "max", "min", "avg", "count", "rollback", "commit", "insert", "delete", "values", "into".
 - Support multiple-table operations.
 - Implement a simple query optimization schema
 - Support transaction, ensure ACID properties.
