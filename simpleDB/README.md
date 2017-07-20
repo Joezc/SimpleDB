@@ -1,28 +1,17 @@
-# CS186
-## TODO
-- 不同层次之间异常的捕捉和处理
-    - IntegerAggregator -> Dbiterator
-- In HeapFile.insertTuple, did not restrict the size of the whole file.
+SimpleDB is a simple database. SimpleDB has the following primary feature:
 
+- Support basic database insert, select, delete, filter and join operation. 
+- Support multiple-table operations.
+- Implement a simple query optimization schema
+- Support transaction, ensure ACID properties.
 
+More bottom details
 
-## **Life of a query in SimpleDB**
+- Slice data files into pages.
+- Implement a buffer pool to manage the pages.
 
-**Step 1: simpledb.Parser.main() and simpledb.Parser.start()**
+Usage sample
 
-`simpledb.Parser.main()` is the entry point for the SimpleDB system. It calls `simpledb.Parser.start()`. The latter performs three main actions:
-
-- It populates the SimpleDB catalog from the catalog text file provided by the user as argument (`Database.getCatalog().loadSchema(argv[0]);`).
-- For each table defined in the system catalog, it computes statistics over the data in the table by calling: `TableStats.computeStatistics()`, which then does: `TableStats s = new TableStats(tableid, IOCOSTPERPAGE)`;
-- It processes the statements submitted by the user (`processNextStatement(new ByteArrayInputStream(statementBytes));`)
-
-**Step 2: simpledb.Parser.processNextStatement()**
-
-This method takes two key actions:
-
-- First, it gets a physical plan for the query by invoking `handleQueryStatement((ZQuery)s);`
-- Then it executes the query by calling `query.execute();`
-
-**Step 3: simpledb.Parser.handleQueryStatement()**
-
-- ​
+1. (under terminal)`ant dist`
+2. `java -jar dist/simpledb.jar parser data/dblp_data/dblp_simpledb.schema` load schema and data, get into database simulation terminal
+3. `select p.title from papers p where p.title like 'selectivity';`execucate normal sql statements.
